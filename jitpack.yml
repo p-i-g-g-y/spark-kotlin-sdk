@@ -1,4 +1,3 @@
-jdk:
-  - openjdk17
+jdk: openjdk17
 install:
   - ./gradlew :lib:publishToMavenLocal -x test -x detekt -x spotlessCheck
