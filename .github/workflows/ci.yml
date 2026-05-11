@@ -67,7 +67,7 @@ jobs:
 
       - name: Upload test reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: unit-test-reports
           path: lib/build/reports/tests/
@@ -76,7 +76,7 @@ jobs:
 
       - name: Upload detekt reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: detekt-reports
           path: lib/build/reports/detekt/
@@ -84,7 +84,7 @@ jobs:
           retention-days: 14
 
       - name: Upload AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: spark-kotlin-sdk-aar
           path: lib/build/outputs/aar/*.aar
@@ -114,7 +114,7 @@ jobs:
         run: ./gradlew :lib:dokkaHtml --stacktrace
 
       - name: Upload Dokka site
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: api-docs
           path: lib/build/dokka/html/
