@@ -13,29 +13,35 @@ migration note.
 
 ## [Unreleased]
 
-## [0.2.0]
+---
 
-### Changed
-- **BREAKING:** `WalletBalance` no longer carries a single `totalSats: Long`.
-  It now exposes `satsBalance: SatsBalance` with three buckets — `available`
-  (spendable), `owned` (available + locked in outgoing operations), and
-  `incoming` (pending inbound transfers + on-chain deposits still in
-  `CREATING` state). This matches the official Swift SDK so the same wallet
-  queried from iOS and Android composes into identical numbers.
-- `WalletBalance.totalSats` is retained as a deprecated accessor that
-  returns `satsBalance.available`, so code compiled against `0.1.0` keeps
-  working with a deprecation warning. Migrate to either
-  `satsBalance.available` (spendable now) or `satsBalance.available +
-  satsBalance.incoming` (with in-flight credits).
-- `getBalance()` now computes the breakdown locally from `query_nodes`
-  and `queryPendingTransfers()` instead of relying on the coordinator's
-  `query_balance` RPC, mirroring the Swift SDK's algorithm exactly.
+## [0.1.0]
 
-## [Unreleased prior to 0.2.0]
+Initial public release.
 
 ### Added
-- `LICENSE` (MIT), `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, this
-  `CHANGELOG.md`, `NOTICE`, and a comprehensive `README.md`.
+- `SparkWallet` core API with deposits, transfers, withdrawals, Lightning send / receive,
+  tokens, swaps, settings, and event streaming via `Flow<SparkEvent>`.
+- `SparkConfig` with mainnet and regtest defaults plus pluggable operator / SSP override.
+- `SparkError` typed `sealed class` covering key derivation, balance, auth, gRPC,
+  GraphQL, FROST signing, token validation, and not-implemented cases.
+- gRPC transport via `grpc-okhttp` + `grpc-kotlin-stub` and SSP GraphQL client built on
+  OkHttp.
+- FROST threshold signing via the bundled `libspark_frost.so` /
+  `libuniffi_spark_frost.so` native libraries (Rust UniFFI bindings) for `arm64-v8a`,
+  `armeabi-v7a`, `x86`, `x86_64`, all built with 16 KB ELF page alignment.
+- `WalletBalance` carries a structured `satsBalance: SatsBalance` breakdown
+  (`available` / `owned` / `incoming`) and a `tokenBalances: List<TokenBalance>` list,
+  matching the official Swift SDK shape.
+- `getBalance()` computes buckets locally from a single `query_nodes` round-trip plus
+  `queryPendingTransfers()`, mirroring the Swift SDK algorithm so the same wallet queried
+  from iOS and Android composes into identical numbers. Statuses are compared against the
+  same constant set the Swift SDK uses (`AVAILABLE`, `TRANSFER_LOCKED`, `SPLIT_LOCKED`,
+  `AGGREGATE_LOCK`, `RENEW_LOCKED`, `CREATING`).
+- `WalletBalance.totalSats` is retained as a `@Deprecated` accessor returning
+  `satsBalance.available`, equivalent to the Swift SDK's deprecated `balance: Int64`.
+- `LICENSE` (MIT), `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `NOTICE`,
+  and a comprehensive `README.md`.
 - `maven-publish` + `signing` configuration with a complete POM (description, license,
   SCM, developer, issue tracker), sources JAR, and Sonatype OSSRH staging repository
   wired for both snapshot and release lanes.
@@ -53,16 +59,12 @@ migration note.
 - Kotlin explicit API mode (`explicitApi()`) so public surface cannot leak by accident.
 - `samples/quickstart/` minimal CLI demonstrating wallet creation, deposit address,
   invoice, transfer, withdraw.
+- `jitpack.yml` so JitPack builds the SDK with JDK 17 (Gradle 9.3.1 requirement).
 - Documentation of the native FROST build pipeline (`build-frost-android.sh`) and
   binary provenance requirements in `CONTRIBUTING.md` and `SECURITY.md`.
-
-### Changed
-- `.gitignore` extended to cover `.env`, `*.keystore`, `*.jks`, `*.pem`, `*.p12`,
-  `secring.gpg`, `.DS_Store`, IDE / VSCode caches, and Dokka output.
-
-### Removed
-- `local.properties` and `.DS_Store` removed from version control. They had been
-  committed by accident and leaked an absolute SDK path on a maintainer's machine.
+- Test suite: BIP-39 vectors, key derivation, hex parsing, token validation
+  (`SparkSDKTests`, `TokenTests`), and live-network integration coverage
+  (`IntegrationTests`) gated on a connected device / emulator.
 
 ### Security
 - Documented threat model, scope, and reporting channel in `SECURITY.md`.
@@ -71,27 +73,6 @@ migration note.
   [`buildonspark/spark`](https://github.com/buildonspark/spark) commit hash via
   `build-frost-android.sh`. PRs that update the binaries must include a SHA-256 hash
   and the upstream commit they were built from.
-
----
-
-## [0.1.0] — TBD
-
-Initial public release.
-
-### Added
-- `SparkWallet` core API with deposits, transfers, withdrawals, Lightning send / receive,
-  tokens, swaps, settings, and event streaming via `Flow<SparkEvent>`.
-- `SparkConfig` with mainnet and regtest defaults plus pluggable operator / SSP override.
-- `SparkError` typed `sealed class` covering key derivation, balance, auth, gRPC,
-  GraphQL, FROST signing, token validation, and not-implemented cases.
-- gRPC transport via `grpc-okhttp` + `grpc-kotlin-stub` and SSP GraphQL client built on
-  OkHttp.
-- FROST threshold signing via the bundled `libspark_frost.so` /
-  `libuniffi_spark_frost.so` native libraries (Rust UniFFI bindings) for `arm64-v8a`,
-  `armeabi-v7a`, `x86`, `x86_64`, all built with 16 KB ELF page alignment.
-- Test suite: BIP-39 vectors, key derivation, hex parsing, token validation
-  (`SparkSDKTests`, `TokenTests`), and live-network integration coverage
-  (`IntegrationTests`) gated on a connected device / emulator.
 
 [Unreleased]: https://github.com/p-i-g-g-y/spark-kotlin-sdk/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/p-i-g-g-y/spark-kotlin-sdk/releases/tag/v0.1.0

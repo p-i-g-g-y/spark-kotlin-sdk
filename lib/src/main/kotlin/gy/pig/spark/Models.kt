@@ -29,15 +29,12 @@ public data class SatsBalance(
 
 public data class WalletBalance(
     public val satsBalance: SatsBalance,
+    public val tokenBalances: List<TokenBalance>,
     public val leaves: List<SparkLeaf>,
 ) {
     /**
      * Spendable balance only. Equivalent to [SatsBalance.available].
-     *
-     * Retained as a deprecated accessor so callers compiled against
-     * v0.1.0 keep working; new callers should read [satsBalance.available]
-     * or [satsBalance.available] + [satsBalance.incoming] depending on the
-     * UI need.
+     * Mirrors the Swift SDK's deprecated `balance: Int64` accessor.
      */
     @Deprecated(
         message = "Use satsBalance.available (spendable) or satsBalance.available + .incoming (with in-flight credits).",

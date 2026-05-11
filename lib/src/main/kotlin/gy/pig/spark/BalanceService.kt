@@ -6,14 +6,10 @@ import spark.Spark
 /**
  * Compute the wallet's full sats balance.
  *
- * The Spark coordinator's `query_balance` RPC returns a single rolled-up
- * number that conflates spendable, locked, and not-yet-claimed value. UI
- * code typically needs the breakdown — "spendable now", "owned including
- * in-flight outgoing", and "incoming credit not yet finalized". To match
- * the Swift SDK's behavior we therefore compute the buckets locally from
- * `query_nodes` (which returns every node with its status) and from
- * `queryPendingTransfers()`. Statuses are compared against the same string
- * constants the Swift SDK uses.
+ * Direct port of the official Swift SDK's [`BalanceService.getBalance()`](
+ * https://github.com/buildonspark/spark-swift-sdk). Buckets the wallet's
+ * leaves locally from a single `query_nodes` round-trip, then adds pending
+ * inbound transfers and `CREATING` deposits to the incoming bucket.
  *
  * - **available** = sum of `AVAILABLE` node values. Immediately spendable.
  * - **owned**     = available + sum of values whose status is in
@@ -24,11 +20,17 @@ import spark.Spark
  *   node values (on-chain deposits the coordinator hasn't finalized yet,
  *   matching the TS SDK).
  *
- * @return [WalletBalance] with both the breakdown and the spendable-leaf list.
+ * Failures in `queryPendingTransfers()` or `getTokenBalances()` propagate
+ * to the caller — same contract as the Swift SDK. Callers that want
+ * best-effort behavior should wrap this in their own `try/catch`.
+ *
+ * @return [WalletBalance] with the breakdown, token balances, and spendable leaves.
  */
 public suspend fun SparkWallet.getBalance(): WalletBalance {
     val stub = getCoordinatorStub()
 
+    // Query all nodes (no status filter) so we can compute owned + available
+    // locally — mirrors Swift exactly.
     val nodesRequest = Spark.QueryNodesRequest.newBuilder()
         .setOwnerIdentityPubkey(ByteString.copyFrom(signer.identityPublicKey))
         .setNetwork(config.network.toProto())
@@ -62,17 +64,11 @@ public suspend fun SparkWallet.getBalance(): WalletBalance {
         }
     }
 
-    // Pending inbound transfers + on-chain deposits still in CREATING state.
-    // Matches the Swift / TS SDKs.
+    // Incoming: pending inbound transfers + deposits still being created.
+    // Errors propagate — Swift parity.
     var incomingSats = 0L
-    try {
-        for (transfer in queryPendingTransfers()) {
-            incomingSats += transfer.totalValue
-        }
-    } catch (_: Throwable) {
-        // Best-effort: if the pending-transfer query is unavailable
-        // (test fakes, transient gRPC error) we still want to return the
-        // available/owned breakdown so the UI shows the spendable number.
+    for (transfer in queryPendingTransfers()) {
+        incomingSats += transfer.totalValue
     }
     for ((_, node) in nodesResponse.nodesMap) {
         if (node.status.toString() == "CREATING") {
@@ -80,12 +76,15 @@ public suspend fun SparkWallet.getBalance(): WalletBalance {
         }
     }
 
+    val tokenBalances = getTokenBalances()
+
     return WalletBalance(
         satsBalance = SatsBalance(
             available = availableSats,
             owned = ownedSats,
             incoming = incomingSats,
         ),
+        tokenBalances = tokenBalances,
         leaves = leaves,
     )
 }
