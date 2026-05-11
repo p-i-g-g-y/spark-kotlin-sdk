@@ -149,7 +149,7 @@ runBlocking {
         println("Claimed $claimed pending transfer(s)")
 
         val balance = wallet.getBalance()
-        println("Available: ${balance.satsBalance} sats")
+        println("Available: ${balance.satsBalance.available} sats")
 
         // 5. SEND — to another Spark wallet (33-byte compressed secp256k1 key).
         val transfer = wallet.send(

@@ -71,8 +71,14 @@ class IntegrationTests {
     @Test
     fun queryBalance() = runBlocking {
         val balance = walletA.getBalance()
-        println("Balance: ${balance.totalSats} sats, ${balance.leaves.size} leaves")
-        assertTrue(balance.totalSats >= 0)
+        println(
+            "Balance — available: ${balance.satsBalance.available} sats, " +
+                "owned: ${balance.satsBalance.owned} sats, " +
+                "incoming: ${balance.satsBalance.incoming} sats, " +
+                "${balance.leaves.size} leaves",
+        )
+        assertTrue(balance.satsBalance.available >= 0)
+        assertTrue(balance.satsBalance.owned >= balance.satsBalance.available)
     }
 
     @Test
@@ -181,8 +187,9 @@ class IntegrationTests {
     @Test
     fun payInvoice() = runBlocking {
         val balanceBefore = walletA.getBalance()
-        if (balanceBefore.totalSats < 100) {
-            println("WalletA needs >= 100 sats (has ${balanceBefore.totalSats}), skipping")
+        val availableBefore = balanceBefore.satsBalance.available
+        if (availableBefore < 100) {
+            println("WalletA needs >= 100 sats (has $availableBefore), skipping")
             return@runBlocking
         }
 
@@ -192,8 +199,9 @@ class IntegrationTests {
         println("Payment ID: $paymentID")
 
         val balanceAfter = walletA.getBalance()
-        assertTrue(balanceAfter.totalSats < balanceBefore.totalSats)
-        println("WalletA: ${balanceBefore.totalSats} -> ${balanceAfter.totalSats} sats")
+        val availableAfter = balanceAfter.satsBalance.available
+        assertTrue(availableAfter < availableBefore)
+        println("WalletA: $availableBefore -> $availableAfter sats")
     }
 
     // =========================================================================

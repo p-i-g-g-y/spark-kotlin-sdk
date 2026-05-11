@@ -3,7 +3,48 @@ package gy.pig.spark
 import java.math.BigInteger
 import java.util.Date
 
-data class WalletBalance(val totalSats: Long, val leaves: List<SparkLeaf>,)
+/**
+ * Three-way breakdown of the wallet's sat balance.
+ *
+ * Mirrors `SparkSDK/Models.SatsBalance` from the official Swift SDK so the
+ * Kotlin and Swift surfaces compose into the same numbers when the same
+ * wallet is queried from both platforms.
+ *
+ * - [available]: immediately spendable. Sum of leaf nodes whose protocol
+ *   status is `AVAILABLE`.
+ * - [owned]: [available] plus value locked in outgoing transfers/swaps
+ *   (`TRANSFER_LOCKED`, `SPLIT_LOCKED`, `AGGREGATE_LOCK`, `RENEW_LOCKED`).
+ *   Use this for "how much do I own right now" displays where in-flight
+ *   sends should not appear to vanish.
+ * - [incoming]: pending inbound transfers that have not been claimed yet,
+ *   plus on-chain deposits whose nodes are still in `CREATING` state.
+ *   Add to [available] to mirror what most wallet UIs label "balance"
+ *   while a payment is in flight.
+ */
+public data class SatsBalance(
+    public val available: Long,
+    public val owned: Long,
+    public val incoming: Long,
+)
+
+public data class WalletBalance(
+    public val satsBalance: SatsBalance,
+    public val leaves: List<SparkLeaf>,
+) {
+    /**
+     * Spendable balance only. Equivalent to [SatsBalance.available].
+     *
+     * Retained as a deprecated accessor so callers compiled against
+     * v0.1.0 keep working; new callers should read [satsBalance.available]
+     * or [satsBalance.available] + [satsBalance.incoming] depending on the
+     * UI need.
+     */
+    @Deprecated(
+        message = "Use satsBalance.available (spendable) or satsBalance.available + .incoming (with in-flight credits).",
+        replaceWith = ReplaceWith("satsBalance.available"),
+    )
+    public val totalSats: Long get() = satsBalance.available
+}
 
 data class SparkLeaf(val id: String, val treeID: String, val valueSats: Long, val status: String, internal val node: spark.Spark.TreeNode? = null,)
 

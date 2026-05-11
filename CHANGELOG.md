@@ -13,6 +13,26 @@ migration note.
 
 ## [Unreleased]
 
+## [0.2.0]
+
+### Changed
+- **BREAKING:** `WalletBalance` no longer carries a single `totalSats: Long`.
+  It now exposes `satsBalance: SatsBalance` with three buckets — `available`
+  (spendable), `owned` (available + locked in outgoing operations), and
+  `incoming` (pending inbound transfers + on-chain deposits still in
+  `CREATING` state). This matches the official Swift SDK so the same wallet
+  queried from iOS and Android composes into identical numbers.
+- `WalletBalance.totalSats` is retained as a deprecated accessor that
+  returns `satsBalance.available`, so code compiled against `0.1.0` keeps
+  working with a deprecation warning. Migrate to either
+  `satsBalance.available` (spendable now) or `satsBalance.available +
+  satsBalance.incoming` (with in-flight credits).
+- `getBalance()` now computes the breakdown locally from `query_nodes`
+  and `queryPendingTransfers()` instead of relying on the coordinator's
+  `query_balance` RPC, mirroring the Swift SDK's algorithm exactly.
+
+## [Unreleased prior to 0.2.0]
+
 ### Added
 - `LICENSE` (MIT), `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, this
   `CHANGELOG.md`, `NOTICE`, and a comprehensive `README.md`.

@@ -79,10 +79,14 @@ suspend fun runQuickstart() {
 
         // 6. Verify the balance moved.
         val balance = wallet.getBalance()
-        println("Available balance: ${balance.satsBalance} sats")
+        println(
+            "Balance — available: ${balance.satsBalance.available} sats, " +
+                "owned: ${balance.satsBalance.owned} sats, " +
+                "incoming: ${balance.satsBalance.incoming} sats",
+        )
 
-        if (balance.satsBalance <= 0) {
-            println("No balance yet — invoice probably not paid. Stopping.")
+        if (balance.satsBalance.available <= 0L) {
+            println("No spendable balance yet — invoice probably not paid. Stopping.")
             return
         }
 
