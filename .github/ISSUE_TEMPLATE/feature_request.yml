@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose a new feature or API.
+title: "[feat] "
+labels: [enhancement, triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user problem are you trying to solve? What's missing today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API or behaviour
+      description: Sketch the call sites or behaviour you'd like. Kotlin pseudocode is fine.
+      render: kotlin
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds you tried, or other API shapes you considered.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Related Spark protocol docs, upstream issues, prior art, etc.

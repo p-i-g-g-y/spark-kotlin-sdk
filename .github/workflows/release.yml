@@ -1,0 +1,68 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (without leading v, e.g. 0.2.0)'
+        required: true
+
+jobs:
+  publish:
+    name: Publish to Sonatype OSSRH
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Resolve version
+        id: ver
+        run: |
+          if [[ -n "${{ inputs.version }}" ]]; then
+            echo "version=${{ inputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            # strip leading v
+            echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Override sdk.version
+        run: |
+          sed -i "s/^sdk\.version=.*/sdk.version=${{ steps.ver.outputs.version }}/" gradle.properties
+          grep '^sdk\.' gradle.properties
+
+      - name: Assemble + unit tests
+        run: ./gradlew :lib:spotlessCheck :lib:testDebugUnitTest :lib:assembleRelease --stacktrace
+
+      - name: Publish to OSSRH staging
+        env:
+          ORG_GRADLE_PROJECT_ossrhUsername: ${{ secrets.OSSRH_USERNAME }}
+          ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}
+          ORG_GRADLE_PROJECT_signing_keyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signing_password: ${{ secrets.SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_signing_secretKeyRingFile: ${{ runner.temp }}/secring.gpg
+        run: |
+          echo "${{ secrets.SIGNING_SECRET_KEY_RING_BASE64 }}" | base64 -d > "$ORG_GRADLE_PROJECT_signing_secretKeyRingFile"
+          ./gradlew :lib:publishReleasePublicationToOssrhRepository --stacktrace
+          rm -f "$ORG_GRADLE_PROJECT_signing_secretKeyRingFile"
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: lib/build/outputs/aar/*.aar

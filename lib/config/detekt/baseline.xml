@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:TokenHashing.kt$fun hashTokenTransactionV2(tx: TokenTransaction, partialHash: Boolean): ByteArray</ID>
+    <ID>CyclomaticComplexMethod:spark_frost.kt$@Suppress("UNUSED_PARAMETER") private fun uniffiCheckApiChecksums(lib: UniffiLib)</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `aggregateFrost`(`msg`: kotlin.ByteArray, `statechainCommitments`: Map&lt;kotlin.String, SigningCommitment>, `selfCommitment`: SigningCommitment, `statechainSignatures`: Map&lt;kotlin.String, kotlin.ByteArray>, `selfSignature`: kotlin.ByteArray, `statechainPublicKeys`: Map&lt;kotlin.String, kotlin.ByteArray>, `selfPublicKey`: kotlin.ByteArray, `verifyingKey`: kotlin.ByteArray, `adaptorPublicKey`: kotlin.ByteArray?): kotlin.ByteArray</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `applyAdaptorToSignature`(`pubKey`: kotlin.ByteArray, `hash`: kotlin.ByteArray, `signature`: kotlin.ByteArray, `adaptorPrivateKey`: kotlin.ByteArray): kotlin.ByteArray</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `checkIfValidSequence`(`sequence`: kotlin.UInt)</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `computeMultiInputSighashUniffi`(`tx`: kotlin.ByteArray, `inputIndex`: kotlin.UInt, `prevOutScripts`: List&lt;kotlin.ByteArray>, `prevOutValues`: List&lt;kotlin.ULong>): kotlin.ByteArray</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `constructDirectRefundTx`(`tx`: kotlin.ByteArray, `vout`: kotlin.UInt, `pubkey`: kotlin.ByteArray, `network`: kotlin.String, `sequence`: kotlin.UInt): TransactionResult</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `constructHtlcReceiverSpend`(`htlcTx`: kotlin.ByteArray, `destinationPubkey`: kotlin.ByteArray, `paymentHash`: kotlin.ByteArray, `hashlockPubkey`: kotlin.ByteArray, `seqlockPubkey`: kotlin.ByteArray, `htlcSequence`: kotlin.UInt, `feeSats`: kotlin.ULong, `network`: kotlin.String): HtlcSpendResult</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `constructHtlcSenderSpend`(`htlcTx`: kotlin.ByteArray, `destinationPubkey`: kotlin.ByteArray, `paymentHash`: kotlin.ByteArray, `hashlockPubkey`: kotlin.ByteArray, `seqlockPubkey`: kotlin.ByteArray, `htlcSequence`: kotlin.UInt, `feeSats`: kotlin.ULong, `network`: kotlin.String): HtlcSpendResult</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `constructHtlcTransaction`(`nodeTx`: kotlin.ByteArray, `vout`: kotlin.UInt, `sequence`: kotlin.UInt, `paymentHash`: kotlin.ByteArray, `hashlockPubkey`: kotlin.ByteArray, `seqlockPubkey`: kotlin.ByteArray, `htlcSequence`: kotlin.UInt, `applyFee`: kotlin.Boolean, `feeSats`: kotlin.ULong, `network`: kotlin.String): TransactionResult</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `constructNodeTxPair`(`parentTx`: kotlin.ByteArray, `vout`: kotlin.UInt, `address`: kotlin.String, `sequence`: kotlin.UInt, `directSequence`: kotlin.UInt, `feeSats`: kotlin.ULong): NodeTxPairResult</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `constructNodeTx`(`tx`: kotlin.ByteArray, `vout`: kotlin.UInt, `address`: kotlin.String, `locktime`: kotlin.UShort): TransactionResult</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `constructRefundTxTrio`(`cpfpNodeTx`: kotlin.ByteArray, `directNodeTx`: kotlin.ByteArray?, `vout`: kotlin.UInt, `receivingPubkey`: kotlin.ByteArray, `network`: kotlin.String, `sequence`: kotlin.UInt, `directSequence`: kotlin.UInt, `feeSats`: kotlin.ULong): RefundTxTrioResult</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `constructRefundTx`(`tx`: kotlin.ByteArray, `vout`: kotlin.UInt, `pubkey`: kotlin.ByteArray, `network`: kotlin.String, `sequence`: kotlin.UInt): TransactionResult</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `constructSplitTx`(`tx`: kotlin.ByteArray, `vout`: kotlin.UInt, `addresses`: List&lt;kotlin.String>, `locktime`: kotlin.UShort): TransactionResult</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `createDummyTx`(`address`: kotlin.String, `amountSats`: kotlin.ULong): DummyTx</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `decryptEcies`(`encryptedMsg`: kotlin.ByteArray, `privateKey`: kotlin.ByteArray): kotlin.ByteArray</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `encryptEcies`(`msg`: kotlin.ByteArray, `publicKey`: kotlin.ByteArray): kotlin.ByteArray</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `frostNonce`(`keyPackage`: KeyPackage): NonceResult</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `generateAdaptorFromSignature`(`signature`: kotlin.ByteArray): AdaptorSignatureResult</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `generateSignatureFromExistingAdaptor`(`signature`: kotlin.ByteArray, `adaptorPrivateKey`: kotlin.ByteArray): kotlin.ByteArray</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `getPublicKeyBytes`(`privateKeyBytes`: kotlin.ByteArray, `compressed`: kotlin.Boolean): kotlin.ByteArray</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `getTaprootPubkey`(`verifyingPubkey`: kotlin.ByteArray): kotlin.ByteArray</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `nextSequence`(`currSequence`: kotlin.UInt, `timeLockInterval`: kotlin.UInt, `directTimelockOffset`: kotlin.UInt): TimelockResult</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `randomSecretKeyBytes`(): kotlin.ByteArray</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `recoverSecretUniffi`(`shares`: List&lt;SecretShareResult>): kotlin.ByteArray</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `signFrost`(`msg`: kotlin.ByteArray, `keyPackage`: KeyPackage, `nonce`: SigningNonce, `selfCommitment`: SigningCommitment, `statechainCommitments`: Map&lt;kotlin.String, SigningCommitment>, `adaptorPublicKey`: kotlin.ByteArray?): kotlin.ByteArray</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `splitSecretWithProofsUniffi`(`secret`: kotlin.ByteArray, `threshold`: kotlin.UInt, `numShares`: kotlin.UInt): List&lt;VerifiableSecretShareResult></ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `splitSecret`(`secret`: kotlin.ByteArray, `threshold`: kotlin.UInt, `numShares`: kotlin.UInt): List&lt;SecretShareResult></ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `validateAdaptorSignature`(`pubKey`: kotlin.ByteArray, `hash`: kotlin.ByteArray, `signature`: kotlin.ByteArray, `adaptorPubKey`: kotlin.ByteArray)</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `validateShareUniffi`(`share`: kotlin.ByteArray, `index`: kotlin.UInt, `threshold`: kotlin.UInt, `proofs`: List&lt;kotlin.ByteArray>)</ID>
+    <ID>FunctionNaming:spark_frost.kt$@Throws(Exception::class) fun `verifySignatureBytes`(`signature`: kotlin.ByteArray, `message`: kotlin.ByteArray, `pubkey`: kotlin.ByteArray): kotlin.Boolean</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_f32(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_f64(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_i16(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_i32(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_i64(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_i8(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_pointer(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_rust_buffer(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_u16(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_u32(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_u64(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_u8(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_cancel_void(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_f32(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): Float</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_f64(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): Double</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_i16(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_i32(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): Int</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_i64(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): Long</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_i8(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): Byte</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_pointer(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): Pointer</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_rust_buffer(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_u16(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_u32(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): Int</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_u64(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): Long</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_u8(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): Byte</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_complete_void(`handle`: Long,uniffi_out_err: UniffiRustCallStatus, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_f32(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_f64(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_i16(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_i32(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_i64(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_i8(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_pointer(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_rust_buffer(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_u16(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_u32(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_u64(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_u8(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_free_void(`handle`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_f32(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_f64(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_i16(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_i32(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_i64(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_i8(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_pointer(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_rust_buffer(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_u16(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_u32(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_u64(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_u8(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rust_future_poll_void(`handle`: Long,`callback`: UniffiRustFutureContinuationCallback,`callbackData`: Long, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rustbuffer_alloc(`size`: Long,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rustbuffer_free(`buf`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rustbuffer_from_bytes(`bytes`: ForeignBytes.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_rustbuffer_reserve(`buf`: RustBuffer.ByValue,`additional`: Long,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun ffi_spark_frost_uniffi_contract_version( ): Int</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_aggregate_frost( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_apply_adaptor_to_signature( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_check_if_valid_sequence( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_compute_multi_input_sighash_uniffi( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_construct_direct_refund_tx( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_construct_htlc_receiver_spend( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_construct_htlc_sender_spend( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_construct_htlc_transaction( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_construct_node_tx( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_construct_node_tx_pair( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_construct_refund_tx( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_construct_refund_tx_trio( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_construct_split_tx( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_create_dummy_tx( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_decrypt_ecies( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_encrypt_ecies( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_frost_nonce( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_generate_adaptor_from_signature( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_generate_signature_from_existing_adaptor( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_get_public_key_bytes( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_get_taproot_pubkey( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_get_timelock_from_sequence( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_is_zero_timelock( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_next_sequence( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_random_secret_key_bytes( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_recover_secret_uniffi( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_round_down_to_timelock_interval( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_sign_frost( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_split_secret( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_split_secret_with_proofs_uniffi( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_validate_adaptor_signature( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_validate_share_uniffi( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_validate_signature_share( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_checksum_func_verify_signature_bytes( ): Short</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_aggregate_frost(`msg`: RustBuffer.ByValue,`statechainCommitments`: RustBuffer.ByValue,`selfCommitment`: RustBuffer.ByValue,`statechainSignatures`: RustBuffer.ByValue,`selfSignature`: RustBuffer.ByValue,`statechainPublicKeys`: RustBuffer.ByValue,`selfPublicKey`: RustBuffer.ByValue,`verifyingKey`: RustBuffer.ByValue,`adaptorPublicKey`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_apply_adaptor_to_signature(`pubKey`: RustBuffer.ByValue,`hash`: RustBuffer.ByValue,`signature`: RustBuffer.ByValue,`adaptorPrivateKey`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_check_if_valid_sequence(`sequence`: Int,uniffi_out_err: UniffiRustCallStatus, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_compute_multi_input_sighash_uniffi(`tx`: RustBuffer.ByValue,`inputIndex`: Int,`prevOutScripts`: RustBuffer.ByValue,`prevOutValues`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_construct_direct_refund_tx(`tx`: RustBuffer.ByValue,`vout`: Int,`pubkey`: RustBuffer.ByValue,`network`: RustBuffer.ByValue,`sequence`: Int,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_construct_htlc_receiver_spend(`htlcTx`: RustBuffer.ByValue,`destinationPubkey`: RustBuffer.ByValue,`paymentHash`: RustBuffer.ByValue,`hashlockPubkey`: RustBuffer.ByValue,`seqlockPubkey`: RustBuffer.ByValue,`htlcSequence`: Int,`feeSats`: Long,`network`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_construct_htlc_sender_spend(`htlcTx`: RustBuffer.ByValue,`destinationPubkey`: RustBuffer.ByValue,`paymentHash`: RustBuffer.ByValue,`hashlockPubkey`: RustBuffer.ByValue,`seqlockPubkey`: RustBuffer.ByValue,`htlcSequence`: Int,`feeSats`: Long,`network`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_construct_htlc_transaction(`nodeTx`: RustBuffer.ByValue,`vout`: Int,`sequence`: Int,`paymentHash`: RustBuffer.ByValue,`hashlockPubkey`: RustBuffer.ByValue,`seqlockPubkey`: RustBuffer.ByValue,`htlcSequence`: Int,`applyFee`: Byte,`feeSats`: Long,`network`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_construct_node_tx(`tx`: RustBuffer.ByValue,`vout`: Int,`address`: RustBuffer.ByValue,`locktime`: Short,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_construct_node_tx_pair(`parentTx`: RustBuffer.ByValue,`vout`: Int,`address`: RustBuffer.ByValue,`sequence`: Int,`directSequence`: Int,`feeSats`: Long,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_construct_refund_tx(`tx`: RustBuffer.ByValue,`vout`: Int,`pubkey`: RustBuffer.ByValue,`network`: RustBuffer.ByValue,`sequence`: Int,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_construct_refund_tx_trio(`cpfpNodeTx`: RustBuffer.ByValue,`directNodeTx`: RustBuffer.ByValue,`vout`: Int,`receivingPubkey`: RustBuffer.ByValue,`network`: RustBuffer.ByValue,`sequence`: Int,`directSequence`: Int,`feeSats`: Long,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_construct_split_tx(`tx`: RustBuffer.ByValue,`vout`: Int,`addresses`: RustBuffer.ByValue,`locktime`: Short,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_create_dummy_tx(`address`: RustBuffer.ByValue,`amountSats`: Long,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_decrypt_ecies(`encryptedMsg`: RustBuffer.ByValue,`privateKey`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_encrypt_ecies(`msg`: RustBuffer.ByValue,`publicKey`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_frost_nonce(`keyPackage`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_generate_adaptor_from_signature(`signature`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_generate_signature_from_existing_adaptor(`signature`: RustBuffer.ByValue,`adaptorPrivateKey`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_get_public_key_bytes(`privateKeyBytes`: RustBuffer.ByValue,`compressed`: Byte,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_get_taproot_pubkey(`verifyingPubkey`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_get_timelock_from_sequence(`sequence`: Int,uniffi_out_err: UniffiRustCallStatus, ): Int</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_is_zero_timelock(`sequence`: Int,uniffi_out_err: UniffiRustCallStatus, ): Byte</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_next_sequence(`currSequence`: Int,`timeLockInterval`: Int,`directTimelockOffset`: Int,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_random_secret_key_bytes(uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_recover_secret_uniffi(`shares`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_round_down_to_timelock_interval(`timelock`: Int,`timeLockInterval`: Int,uniffi_out_err: UniffiRustCallStatus, ): Int</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_sign_frost(`msg`: RustBuffer.ByValue,`keyPackage`: RustBuffer.ByValue,`nonce`: RustBuffer.ByValue,`selfCommitment`: RustBuffer.ByValue,`statechainCommitments`: RustBuffer.ByValue,`adaptorPublicKey`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_split_secret(`secret`: RustBuffer.ByValue,`threshold`: Int,`numShares`: Int,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_split_secret_with_proofs_uniffi(`secret`: RustBuffer.ByValue,`threshold`: Int,`numShares`: Int,uniffi_out_err: UniffiRustCallStatus, ): RustBuffer.ByValue</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_validate_adaptor_signature(`pubKey`: RustBuffer.ByValue,`hash`: RustBuffer.ByValue,`signature`: RustBuffer.ByValue,`adaptorPubKey`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_validate_share_uniffi(`share`: RustBuffer.ByValue,`index`: Int,`threshold`: Int,`proofs`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): Unit</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_validate_signature_share(`msg`: RustBuffer.ByValue,`statechainCommitments`: RustBuffer.ByValue,`selfCommitment`: RustBuffer.ByValue,`signatureShare`: RustBuffer.ByValue,`publicShare`: RustBuffer.ByValue,`verifyingKey`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): Byte</ID>
+    <ID>FunctionNaming:spark_frost.kt$UniffiLib$fun uniffi_spark_frost_fn_func_verify_signature_bytes(`signature`: RustBuffer.ByValue,`message`: RustBuffer.ByValue,`pubkey`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, ): Byte</ID>
+    <ID>FunctionNaming:spark_frost.kt$fun `getTimelockFromSequence`(`sequence`: kotlin.UInt): kotlin.UInt</ID>
+    <ID>FunctionNaming:spark_frost.kt$fun `isZeroTimelock`(`sequence`: kotlin.UInt): kotlin.Boolean</ID>
+    <ID>FunctionNaming:spark_frost.kt$fun `roundDownToTimelockInterval`(`timelock`: kotlin.UInt, `timeLockInterval`: kotlin.UInt): kotlin.UInt</ID>
+    <ID>FunctionNaming:spark_frost.kt$fun `validateSignatureShare`(`msg`: kotlin.ByteArray, `statechainCommitments`: Map&lt;kotlin.String, SigningCommitment>, `selfCommitment`: SigningCommitment, `signatureShare`: kotlin.ByteArray, `publicShare`: kotlin.ByteArray, `verifyingKey`: kotlin.ByteArray): kotlin.Boolean</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiCallbackInterfaceFree$`handle`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteF32$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteF32$`result`: UniffiForeignFutureStructF32.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteF64$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteF64$`result`: UniffiForeignFutureStructF64.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteI16$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteI16$`result`: UniffiForeignFutureStructI16.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteI32$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteI32$`result`: UniffiForeignFutureStructI32.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteI64$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteI64$`result`: UniffiForeignFutureStructI64.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteI8$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteI8$`result`: UniffiForeignFutureStructI8.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompletePointer$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompletePointer$`result`: UniffiForeignFutureStructPointer.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteRustBuffer$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteRustBuffer$`result`: UniffiForeignFutureStructRustBuffer.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteU16$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteU16$`result`: UniffiForeignFutureStructU16.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteU32$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteU32$`result`: UniffiForeignFutureStructU32.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteU64$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteU64$`result`: UniffiForeignFutureStructU64.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteU8$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteU8$`result`: UniffiForeignFutureStructU8.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteVoid$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureCompleteVoid$`result`: UniffiForeignFutureStructVoid.UniffiByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiForeignFutureFree$`handle`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`adaptorPrivateKey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`adaptorPubKey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`adaptorPublicKey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`additional`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`address`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`addresses`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`amountSats`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`applyFee`: Byte</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`buf`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`bytes`: ForeignBytes.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`callbackData`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`callback`: UniffiRustFutureContinuationCallback</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`compressed`: Byte</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`cpfpNodeTx`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`currSequence`: Int</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`destinationPubkey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`directNodeTx`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`directSequence`: Int</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`directTimelockOffset`: Int</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`encryptedMsg`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`feeSats`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`handle`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`hash`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`hashlockPubkey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`htlcSequence`: Int</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`htlcTx`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`index`: Int</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`inputIndex`: Int</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`keyPackage`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`locktime`: Short</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`message`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`msg`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`network`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`nodeTx`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`nonce`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`numShares`: Int</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`parentTx`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`paymentHash`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`prevOutScripts`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`prevOutValues`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`privateKeyBytes`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`privateKey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`proofs`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`pubKey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`pubkey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`publicKey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`publicShare`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`receivingPubkey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`secret`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`selfCommitment`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`selfPublicKey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`selfSignature`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`seqlockPubkey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`sequence`: Int</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`share`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`shares`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`signatureShare`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`signature`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`size`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`statechainCommitments`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`statechainPublicKeys`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`statechainSignatures`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`threshold`: Int</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`timeLockInterval`: Int</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`timelock`: Int</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`tx`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`verifyingKey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`verifyingPubkey`: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$`vout`: Int</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiLib$uniffi_out_err: UniffiRustCallStatus</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiRustCallStatusErrorHandler$error_buf: RustBuffer.ByValue</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiRustFutureContinuationCallback$`data`: Long</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$UniffiRustFutureContinuationCallback$`pollResult`: Byte</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`adaptorPrivateKey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`adaptorPubKey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`adaptorPublicKey`: kotlin.ByteArray?</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`address`: kotlin.String</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`addresses`: List&lt;kotlin.String></ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`amountSats`: kotlin.ULong</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`applyFee`: kotlin.Boolean</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`compressed`: kotlin.Boolean</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`cpfpNodeTx`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`currSequence`: kotlin.UInt</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`destinationPubkey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`directNodeTx`: kotlin.ByteArray?</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`directSequence`: kotlin.UInt</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`directTimelockOffset`: kotlin.UInt</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`encryptedMsg`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`feeSats`: kotlin.ULong</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`hash`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`hashlockPubkey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`htlcSequence`: kotlin.UInt</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`htlcTx`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`index`: kotlin.UInt</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`inputIndex`: kotlin.UInt</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`keyPackage`: KeyPackage</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`locktime`: kotlin.UShort</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`message`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`msg`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`network`: kotlin.String</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`nodeTx`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`nonce`: SigningNonce</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`numShares`: kotlin.UInt</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`parentTx`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`paymentHash`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`prevOutScripts`: List&lt;kotlin.ByteArray></ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`prevOutValues`: List&lt;kotlin.ULong></ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`privateKeyBytes`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`privateKey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`proofs`: List&lt;kotlin.ByteArray></ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`pubKey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`pubkey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`publicKey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`publicShare`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`receivingPubkey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`secret`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`selfCommitment`: SigningCommitment</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`selfPublicKey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`selfSignature`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`seqlockPubkey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`sequence`: kotlin.UInt</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`share`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`shares`: List&lt;SecretShareResult></ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`signatureShare`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`signature`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`statechainCommitments`: Map&lt;kotlin.String, SigningCommitment></ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`statechainPublicKeys`: Map&lt;kotlin.String, kotlin.ByteArray></ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`statechainSignatures`: Map&lt;kotlin.String, kotlin.ByteArray></ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`threshold`: kotlin.UInt</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`timeLockInterval`: kotlin.UInt</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`timelock`: kotlin.UInt</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`tx`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`verifyingKey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`verifyingPubkey`: kotlin.ByteArray</ID>
+    <ID>FunctionParameterNaming:spark_frost.kt$`vout`: kotlin.UInt</ID>
+    <ID>InstanceOfCheckForException:spark_frost.kt$e is E</ID>
+    <ID>LongMethod:ClaimTransferService.kt$suspend fun SparkWallet.claimTransfer(transfer: Spark.Transfer)</ID>
+    <ID>LongMethod:LightningService.kt$suspend fun SparkWallet.payLightningInvoice(paymentRequest: String, amountSats: Long? = null, idempotencyKey: String? = null,): String</ID>
+    <ID>LongMethod:SwapService.kt$internal suspend fun SparkWallet.processSwapBatch(leaves: List&lt;SparkLeaf>, targetAmounts: List&lt;Long>,): List&lt;SparkLeaf></ID>
+    <ID>LongMethod:TokenHashing.kt$fun hashTokenTransactionV2(tx: TokenTransaction, partialHash: Boolean): ByteArray</ID>
+    <ID>LongMethod:WithdrawalService.kt$suspend fun SparkWallet.withdraw(onChainAddress: String, amountSats: Long,): String</ID>
+    <ID>LongParameterList:spark_frost.kt$(`nodeTx`: kotlin.ByteArray, `vout`: kotlin.UInt, `sequence`: kotlin.UInt, `paymentHash`: kotlin.ByteArray, `hashlockPubkey`: kotlin.ByteArray, `seqlockPubkey`: kotlin.ByteArray, `htlcSequence`: kotlin.UInt, `applyFee`: kotlin.Boolean, `feeSats`: kotlin.ULong, `network`: kotlin.String)</ID>
+    <ID>LongParameterList:spark_frost.kt$UniffiLib$(`msg`: RustBuffer.ByValue,`statechainCommitments`: RustBuffer.ByValue,`selfCommitment`: RustBuffer.ByValue,`statechainSignatures`: RustBuffer.ByValue,`selfSignature`: RustBuffer.ByValue,`statechainPublicKeys`: RustBuffer.ByValue,`selfPublicKey`: RustBuffer.ByValue,`verifyingKey`: RustBuffer.ByValue,`adaptorPublicKey`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, )</ID>
+    <ID>LongParameterList:spark_frost.kt$UniffiLib$(`nodeTx`: RustBuffer.ByValue,`vout`: Int,`sequence`: Int,`paymentHash`: RustBuffer.ByValue,`hashlockPubkey`: RustBuffer.ByValue,`seqlockPubkey`: RustBuffer.ByValue,`htlcSequence`: Int,`applyFee`: Byte,`feeSats`: Long,`network`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, )</ID>
+    <ID>LoopWithTooManyJumpStatements:Helpers.kt$for</ID>
+    <ID>LoopWithTooManyJumpStatements:SwapService.kt$for</ID>
+    <ID>LoopWithTooManyJumpStatements:TokenService.kt$for</ID>
+    <ID>MaxLineLength:spark_frost.kt$@Throws(Exception::class)</ID>
+    <ID>MaxLineLength:spark_frost.kt$FfiConverterByteArray.lower(`cpfpNodeTx`)</ID>
+    <ID>MaxLineLength:spark_frost.kt$FfiConverterByteArray.lower(`htlcTx`)</ID>
+    <ID>MaxLineLength:spark_frost.kt$FfiConverterByteArray.lower(`msg`)</ID>
+    <ID>MaxLineLength:spark_frost.kt$FfiConverterByteArray.lower(`nodeTx`)</ID>
+    <ID>MaxLineLength:spark_frost.kt$FfiConverterByteArray.lower(`parentTx`)</ID>
+    <ID>MaxLineLength:spark_frost.kt$FfiConverterByteArray.lower(`pubKey`)</ID>
+    <ID>MaxLineLength:spark_frost.kt$FfiConverterByteArray.lower(`share`)</ID>
+    <ID>MaxLineLength:spark_frost.kt$FfiConverterByteArray.lower(`tx`)</ID>
+    <ID>MaxLineLength:spark_frost.kt$UniffiLib$fun</ID>
+    <ID>MaxLineLength:spark_frost.kt$fun</ID>
+    <ID>MaxLineLength:spark_frost.kt$private inline</ID>
+    <ID>PackageNaming:spark_frost.kt$package uniffi.spark_frost</ID>
+    <ID>ThrowsCount:SspAuthenticator.kt$SspAuthenticator$private suspend fun authenticate(): CachedToken</ID>
+    <ID>ThrowsCount:SwapService.kt$internal suspend fun SparkWallet.processSwapBatch(leaves: List&lt;SparkLeaf>, targetAmounts: List&lt;Long>,): List&lt;SparkLeaf></ID>
+    <ID>ThrowsCount:spark_frost.kt$@Suppress("UNUSED_PARAMETER") private fun uniffiCheckApiChecksums(lib: UniffiLib)</ID>
+    <ID>TooGenericExceptionThrown:spark_frost.kt$FfiConverter$throw RuntimeException("junk remaining in buffer after lifting, something is very wrong!!")</ID>
+    <ID>TooGenericExceptionThrown:spark_frost.kt$FfiConverterTypeError$throw RuntimeException("invalid error enum value, something is very wrong!!")</ID>
+    <ID>TooGenericExceptionThrown:spark_frost.kt$RustBuffer.Companion$throw RuntimeException("RustBuffer.alloc() returned null data pointer (size=${size})")</ID>
+    <ID>TooGenericExceptionThrown:spark_frost.kt$throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")</ID>
+    <ID>TooGenericExceptionThrown:spark_frost.kt$throw RuntimeException("UniFFI contract version mismatch: try cleaning and rebuilding your project")</ID>
+    <ID>UnusedImports:spark_frost.kt$import com.sun.jna.IntegerType</ID>
+    <ID>UnusedParameter:DepositService.kt$network: String</ID>
+    <ID>UnusedParameter:TokenService.kt$revocationCommitments: List&lt;ByteArray>?</ID>
+    <ID>UnusedPrivateProperty:WithdrawalService.kt$j</ID>
+    <ID>VariableNaming:spark_frost.kt$UniffiRustCallStatus$@JvmField var error_buf: RustBuffer.ByValue = RustBuffer.ByValue()</ID>
+    <ID>VariableNaming:spark_frost.kt$val bindings_contract_version = 26</ID>
+    <ID>VariableNaming:spark_frost.kt$val return_value = callback(status)</ID>
+    <ID>VariableNaming:spark_frost.kt$val scaffolding_contract_version = lib.ffi_spark_frost_uniffi_contract_version()</ID>
+  </CurrentIssues>
+</SmellBaseline>

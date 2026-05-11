@@ -1,0 +1,22 @@
+# Default owners — required to approve any change unless overridden below.
+* @p-i-g-g-y/maintainers
+
+# Build, CI, and publishing pipeline — extra eyes required.
+/.github/                          @p-i-g-g-y/maintainers
+/gradle/                           @p-i-g-g-y/maintainers
+/build.gradle.kts                  @p-i-g-g-y/maintainers
+/settings.gradle.kts               @p-i-g-g-y/maintainers
+/gradle.properties                 @p-i-g-g-y/maintainers
+/lib/build.gradle.kts              @p-i-g-g-y/maintainers
+/lib/consumer-rules.pro            @p-i-g-g-y/maintainers
+/lib/proguard-rules.pro            @p-i-g-g-y/maintainers
+
+# Security-sensitive paths — cryptography sign-off required.
+/SECURITY.md                       @p-i-g-g-y/security
+/build-frost-android.sh            @p-i-g-g-y/security
+/lib/src/main/jniLibs/             @p-i-g-g-y/security
+/lib/src/main/kotlin/gy/pig/spark/frost/   @p-i-g-g-y/security
+/lib/src/main/kotlin/gy/pig/spark/SparkSigner.kt        @p-i-g-g-y/security
+/lib/src/main/kotlin/gy/pig/spark/FrostSigningHelper.kt @p-i-g-g-y/security
+/lib/src/main/kotlin/gy/pig/spark/KeyDerivation.kt      @p-i-g-g-y/security
+/lib/src/main/kotlin/gy/pig/spark/KeyTweakHelper.kt     @p-i-g-g-y/security

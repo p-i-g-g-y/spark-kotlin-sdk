@@ -1,0 +1,33 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.{kt,kts}]
+indent_size = 4
+# 160 instead of 120 — accommodates hex constants, protobuf builder chains,
+# gRPC stub signatures, and test assertion strings without forcing low-value
+# line wraps. Wrap by hand well below 160 when it improves readability.
+max_line_length = 160
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
+ktlint_standard_filename = disabled
+ktlint_standard_no-wildcard-imports = disabled
+
+[*.{yml,yaml,toml,json}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+[Makefile]
+indent_style = tab
+
+[*.{sh,bash}]
+indent_size = 2

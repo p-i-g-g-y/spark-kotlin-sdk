@@ -1,0 +1,194 @@
+package gy.pig.spark
+
+import org.junit.Assert.*
+import org.junit.Test
+
+class SparkSDKTests {
+
+    @Test
+    fun testKeyDerivation() {
+        val mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
+        val keys = KeyDerivation.fromMnemonic(mnemonic, account = 0)
+
+        assertEquals(33, keys.identityPublicKey.size)
+        assertEquals(33, keys.depositPublicKey.size)
+
+        val keys2 = KeyDerivation.fromMnemonic(mnemonic, account = 0)
+        assertArrayEquals(keys.identityPublicKey, keys2.identityPublicKey)
+        assertArrayEquals(keys.depositPublicKey, keys2.depositPublicKey)
+
+        // Cross-check against TypeScript SDK reference vectors (from @scure/bip32, account=0)
+        assertEquals(
+            "02698b27ac308b275671b3ca25436346469d04a5bba578ae39feba1d65897a6abc",
+            keys.identityPublicKey.toHexString(),
+        )
+        assertEquals(
+            "02f4f6db6cf8f0ab8c9c95659b78448d09ebf490c4251349c6ebef7caf9ad6e10a",
+            keys.depositPublicKey.toHexString(),
+        )
+    }
+
+    @Test
+    fun testSparkSigner() {
+        val mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
+        val signer = SparkSigner.fromMnemonic(mnemonic)
+
+        assertEquals(33, signer.identityPublicKey.size)
+        assertEquals(33, signer.depositPublicKey.size)
+        assertTrue(signer.identityPublicKey.toHexString().isNotEmpty())
+    }
+
+    @Test
+    fun mnemonicToSeedTrezorPassphrase() {
+        // Official BIP39 test vector from trezor/python-mnemonic vectors.json
+        val seed = KeyDerivation.mnemonicToSeed(
+            "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
+            "TREZOR",
+        )
+        assertEquals(
+            "c55257c360c07c72029aebc1b53c05ed0362ada38ead3e3e9efa3708e53495531f09a6987599d18264c1e1c92f2cf141630c7a3c4ab7c81b2f001698e7463b04",
+            seed.toHexString(),
+        )
+    }
+
+    @Test
+    fun mnemonicToSeedEmptyPassphrase() {
+        val seed = KeyDerivation.mnemonicToSeed(
+            "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
+            "",
+        )
+        assertEquals(
+            "5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            seed.toHexString(),
+        )
+    }
+
+    @Test
+    fun passphraseChangesSeed() {
+        val mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
+        val seedEmpty = KeyDerivation.mnemonicToSeed(mnemonic, "")
+        val seedTrezor = KeyDerivation.mnemonicToSeed(mnemonic, "TREZOR")
+        assertFalse(seedEmpty.contentEquals(seedTrezor))
+    }
+
+    @Test
+    fun seedDeterministic() {
+        val mnemonic = "ozone drill grab fiber curtain grace pudding thank cruise elder eight picnic"
+        val seed1 = KeyDerivation.mnemonicToSeed(mnemonic, "")
+        val seed2 = KeyDerivation.mnemonicToSeed(mnemonic, "")
+        assertArrayEquals(seed1, seed2)
+        assertEquals(64, seed1.size) // 512 bits
+    }
+
+    @Test
+    fun testHexConversion() {
+        val data = byteArrayOf(0xDE.toByte(), 0xAD.toByte(), 0xBE.toByte(), 0xEF.toByte())
+        assertEquals("deadbeef", data.toHexString())
+
+        val roundtrip = "deadbeef".hexToByteArray()
+        assertArrayEquals(data, roundtrip)
+    }
+
+    @Test
+    fun testTaggedHash() {
+        val hasher = SparkHasher(listOf("spark", "transfer", "signing payload"))
+        hasher.addBytes("deadbeef".hexToByteArray())
+        hasher.addMapStringToBytes(mapOf("op1" to "cafe".hexToByteArray(), "op2" to "babe".hexToByteArray()))
+        val result = hasher.hash()
+        // Verified: matches Swift SDK output
+        assertEquals("079a10347594aef138bac8153d261ba95406af52148d8368f8b81bd2f3f28c49", result.toHexString())
+    }
+
+    @Test
+    fun mainnetDefaultAccount() {
+        val mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
+        // Account 0 (explicit)
+        val keys0 = KeyDerivation.fromMnemonic(mnemonic, account = 0)
+        // Account 1 (mainnet default via SparkWallet)
+        val wallet = SparkWallet.fromMnemonic(mnemonic = mnemonic)
+        // They must differ — mainnet defaults to account 1
+        assertNotEquals(keys0.identityPublicKey.toHexString(), wallet.identityPublicKeyHex)
+
+        // Account 1 explicit must match mainnet default
+        val keys1 = KeyDerivation.fromMnemonic(mnemonic, account = 1)
+        assertEquals(keys1.identityPublicKey.toHexString(), wallet.identityPublicKeyHex)
+    }
+
+    @Test
+    fun testLeafSelection() {
+        val leaves = listOf(
+            SparkLeaf(id = "1", treeID = "t1", valueSats = 100, status = "AVAILABLE"),
+            SparkLeaf(id = "2", treeID = "t2", valueSats = 500, status = "AVAILABLE"),
+            SparkLeaf(id = "3", treeID = "t3", valueSats = 200, status = "AVAILABLE"),
+        )
+
+        val selected = selectLeaves(leaves, amountSats = 600)
+        assertEquals(2, selected.size)
+        assertEquals(500L, selected[0].valueSats)
+        assertEquals(200L, selected[1].valueSats)
+
+        try {
+            selectLeaves(leaves, amountSats = 1000)
+            fail("Should have thrown")
+        } catch (e: SparkError.InsufficientBalance) {
+            assertEquals(1000L, e.need)
+            assertEquals(800L, e.have)
+        }
+    }
+
+    // --- Wallet initialization tests (same mnemonics as Swift) ---
+
+    private val walletAMnemonic = "coast bamboo thumb weapon fade antenna slam gym general entry bench craft"
+    private val walletBMnemonic = "remain typical poverty accuse acid inner cinnamon hundred bright donkey dentist"
+
+    @Test
+    fun initializeWallet() {
+        val wallet = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletAMnemonic, account = 0)
+        assertTrue(wallet.identityPublicKeyHex.isNotEmpty())
+    }
+
+    @Test
+    fun differentAccounts() {
+        val account0 = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletAMnemonic, account = 0)
+        val account1 = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletAMnemonic, account = 1)
+        assertNotEquals(account0.identityPublicKeyHex, account1.identityPublicKeyHex)
+    }
+
+    @Test
+    fun deterministicKeys() {
+        val w1 = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletAMnemonic, account = 0)
+        val w2 = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletAMnemonic, account = 0)
+        assertEquals(w1.identityPublicKeyHex, w2.identityPublicKeyHex)
+    }
+
+    @Test
+    fun differentMnemonics() {
+        val wA = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletAMnemonic, account = 0)
+        val wB = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletBMnemonic, account = 0)
+        assertNotEquals(wA.identityPublicKeyHex, wB.identityPublicKeyHex)
+    }
+
+    // --- Spark Address Tests ---
+
+    @Test
+    fun sparkAddressPrefix() {
+        val wallet = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletAMnemonic, account = 0)
+        val address = wallet.getSparkAddress()
+        assertTrue(address.startsWith("spark1"))
+        assertTrue(address.length > 10)
+    }
+
+    @Test
+    fun deterministicAddress() {
+        val w1 = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletAMnemonic, account = 0)
+        val w2 = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletAMnemonic, account = 0)
+        assertEquals(w1.getSparkAddress(), w2.getSparkAddress())
+    }
+
+    @Test
+    fun differentAddresses() {
+        val wA = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletAMnemonic, account = 0)
+        val wB = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletBMnemonic, account = 0)
+        assertNotEquals(wA.getSparkAddress(), wB.getSparkAddress())
+    }
+}

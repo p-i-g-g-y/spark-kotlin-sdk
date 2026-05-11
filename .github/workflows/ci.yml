@@ -1,0 +1,122 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & unit test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-disabled: false
+          gradle-home-cache-cleanup: true
+
+      - name: Lint (Spotless)
+        run: ./gradlew :lib:spotlessCheck --stacktrace
+
+      - name: Static analysis (detekt)
+        run: ./gradlew :lib:detekt --stacktrace
+
+      - name: Assemble release AAR
+        run: ./gradlew :lib:assembleRelease --stacktrace
+
+      - name: Unit tests
+        run: ./gradlew :lib:testDebugUnitTest --stacktrace
+
+      - name: Coverage report (Kover)
+        run: ./gradlew :lib:koverXmlReport --stacktrace
+
+      - name: Upload coverage to Codecov
+        if: always()
+        uses: codecov/codecov-action@v4
+        with:
+          files: lib/build/reports/kover/report.xml
+          flags: unit
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload detekt SARIF to code scanning
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        continue-on-error: true
+        with:
+          sarif_file: lib/build/reports/detekt/detekt.sarif
+          category: detekt
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-reports
+          path: lib/build/reports/tests/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload detekt reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: detekt-reports
+          path: lib/build/reports/detekt/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: spark-kotlin-sdk-aar
+          path: lib/build/outputs/aar/*.aar
+          if-no-files-found: warn
+          retention-days: 14
+
+  api-docs:
+    name: API docs (Dokka)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Generate Dokka HTML
+        run: ./gradlew :lib:dokkaHtml --stacktrace
+
+      - name: Upload Dokka site
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-docs
+          path: lib/build/dokka/html/
+          if-no-files-found: warn
+          retention-days: 14

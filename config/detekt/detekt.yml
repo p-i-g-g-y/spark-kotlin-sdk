@@ -1,0 +1,118 @@
+# detekt configuration for spark-kotlin-sdk.
+# This file overrides specific rules from the default detekt-1.23.7 ruleset.
+# To regenerate the full default config: `./gradlew detektGenerateConfig`.
+
+build:
+  maxIssues: 0
+  excludeCorrectable: false
+
+processors:
+  active: true
+
+console-reports:
+  active: true
+
+# -----------------------------------------------------------------------------
+# Rules tuned for a Bitcoin / cryptographic SDK.
+#
+# Crypto and protocol code has legitimate reasons to break a few defaults:
+#   - long parameter lists (FROST signing jobs)
+#   - large data classes (protobuf wrappers)
+#   - magic numbers (timelocks, hash sizes, network constants)
+#   - deeply nested logic (multi-round signing protocols)
+# -----------------------------------------------------------------------------
+complexity:
+  active: true
+  LongParameterList:
+    active: true
+    functionThreshold: 10
+    constructorThreshold: 10
+    ignoreDefaultParameters: true
+    ignoreDataClasses: true
+    ignoreAnnotated: ['Composable']
+  LongMethod:
+    active: true
+    threshold: 120
+  TooManyFunctions:
+    active: false
+  ComplexCondition:
+    active: true
+    threshold: 6
+  CyclomaticComplexMethod:
+    active: true
+    threshold: 25
+  LargeClass:
+    active: true
+    threshold: 800
+  NestedBlockDepth:
+    active: true
+    threshold: 7
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+  SwallowedException:
+    active: false
+  ThrowingExceptionsWithoutMessageOrCause:
+    active: false
+
+naming:
+  FunctionNaming:
+    active: true
+    excludes: ['**/test/**', '**/androidTest/**']
+  TopLevelPropertyNaming:
+    active: true
+    constantPattern: '[A-Z][_A-Z0-9]*'
+  VariableNaming:
+    active: true
+    variablePattern: '[a-z][A-Za-z0-9]*|_'
+  ConstructorParameterNaming:
+    active: true
+
+performance:
+  active: true
+  SpreadOperator:
+    active: false
+
+potential-bugs:
+  active: true
+  ImplicitDefaultLocale:
+    active: true
+  UnsafeCallOnNullableType:
+    active: true
+    excludes: ['**/test/**', '**/androidTest/**']
+
+style:
+  MagicNumber:
+    active: false
+  ReturnCount:
+    active: true
+    max: 6
+    excludeGuardClauses: true
+  UnusedPrivateMember:
+    active: true
+  UnusedImports:
+    active: true
+  WildcardImport:
+    # Generated UniFFI bindings live in `gy.pig.spark.frost.uniffi.*` and are
+    # consumed via wildcard imports across the service files. ktlint already
+    # disables this; keep parity here.
+    active: false
+  ForbiddenComment:
+    active: true
+    comments:
+      - reason: 'STOPSHIP must be resolved before release'
+        value: 'STOPSHIP:'
+    excludes: ['**/test/**', '**/androidTest/**']
+  MaxLineLength:
+    active: true
+    maxLineLength: 160
+    excludePackageStatements: true
+    excludeImportStatements: true
+  NewLineAtEndOfFile:
+    active: true
+  ThrowsCount:
+    active: true
+    max: 4
+  DataClassContainsFunctions:
+    active: false

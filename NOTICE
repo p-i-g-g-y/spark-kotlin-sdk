@@ -1,0 +1,86 @@
+spark-kotlin-sdk
+Copyright (c) 2026 Piggy
+
+This product is licensed under the MIT License (see LICENSE).
+
+================================================================================
+Third-party software included as runtime dependencies
+================================================================================
+
+This software depends on, and is distributed alongside, the following
+open-source components. Each is governed by its own license; the corresponding
+upstream LICENSE / NOTICE files apply and are reproduced wherever the
+dependency is redistributed.
+
+--------------------------------------------------------------------------------
+1. Kotlin Standard Library & kotlinx.coroutines
+   - Copyright 2010-2026 JetBrains s.r.o. and Kotlin Programming Language
+     contributors
+   - License: Apache License, Version 2.0
+   - https://github.com/JetBrains/kotlin
+   - https://github.com/Kotlin/kotlinx.coroutines
+
+2. AndroidX core-ktx
+   - Copyright (C) The Android Open Source Project
+   - License: Apache License, Version 2.0
+   - https://developer.android.com/jetpack/androidx
+
+3. gRPC for Java & gRPC-Kotlin
+   - Copyright 2014 The gRPC Authors
+   - License: Apache License, Version 2.0
+   - https://github.com/grpc/grpc-java
+   - https://github.com/grpc/grpc-kotlin
+
+4. Google Protocol Buffers (protobuf-kotlin-lite, protobuf-java-lite)
+   - Copyright 2008 Google Inc.
+   - License: BSD-3-Clause
+   - https://github.com/protocolbuffers/protobuf
+
+5. OkHttp
+   - Copyright Square, Inc.
+   - License: Apache License, Version 2.0
+   - https://square.github.io/okhttp/
+
+6. Bouncy Castle (bcprov-jdk18on)
+   - Copyright (c) 2000-2025 The Legion of the Bouncy Castle Inc.
+     (https://www.bouncycastle.org)
+   - License: Bouncy Castle License (MIT-style adaptation; see
+     https://www.bouncycastle.org/licence.html)
+
+7. Java Native Access (JNA)
+   - Copyright (c) 2007 Timothy Wall, All Rights Reserved
+   - License: dual Apache License 2.0 / LGPL 2.1 (this project consumes the
+     Apache 2.0-licensed distribution)
+   - https://github.com/java-native-access/jna
+
+================================================================================
+Bundled native libraries
+================================================================================
+
+The shared libraries under lib/src/main/jniLibs/{arm64-v8a, armeabi-v7a,
+x86, x86_64}/ named libspark_frost.so and libuniffi_spark_frost.so are
+compiled from the upstream open-source crate:
+
+   spark-frost / spark-frost-uniffi
+   Copyright (c) 2024-2026 Lightspark Group, Inc. and contributors.
+   License: Apache License, Version 2.0
+   https://github.com/buildonspark/spark
+
+They are produced via build-frost-android.sh; see CONTRIBUTING.md for the
+reproducible build pipeline (Docker + Android NDK r27c + Rust 1.88+).
+
+================================================================================
+Build-time dependencies (not distributed)
+================================================================================
+
+The following are used only to build, test, lint, or document this SDK and are
+not redistributed inside the published artifact:
+
+  - Android Gradle Plugin (Apache 2.0) — https://developer.android.com/build
+  - Kotlin Gradle Plugin (Apache 2.0)
+  - protobuf-gradle-plugin (Apache 2.0)
+  - Spotless (Apache 2.0) — https://github.com/diffplug/spotless
+  - ktlint (MIT) — https://github.com/pinterest/ktlint
+  - Dokka (Apache 2.0) — https://github.com/Kotlin/dokka
+  - JUnit 4 (EPL 1.0) — https://junit.org/junit4/
+  - AndroidX Test & Espresso (Apache 2.0)

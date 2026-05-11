@@ -1,0 +1,79 @@
+name: Bug report
+description: Something in the SDK is misbehaving.
+title: "[bug] "
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug.
+
+        **For security vulnerabilities, do NOT open a public issue.**
+        Follow [SECURITY.md](../blob/main/SECURITY.md) instead.
+
+  - type: input
+    id: version
+    attributes:
+      label: SDK version
+      description: Output of `./gradlew :lib:dependencies | grep spark-kotlin-sdk`, or the version in your `build.gradle.kts`.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: network
+    attributes:
+      label: Network
+      options:
+        - mainnet
+        - regtest
+        - other / custom
+    validations:
+      required: true
+
+  - type: input
+    id: android
+    attributes:
+      label: Android / API level
+      placeholder: "Pixel 8 Pro, Android 15 (API 35)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: |
+        Smallest possible code snippet (or repo link) that reproduces the issue.
+        Do not include real mnemonics.
+      render: kotlin
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: Stack traces, gRPC status codes, logs. Redact any sensitive data.
+      render: shell
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmations
+      options:
+        - label: I searched existing issues and did not find a duplicate.
+          required: true
+        - label: This is not a security vulnerability (those go to SECURITY.md).
+          required: true
+        - label: I have not included any real mnemonics, private keys, or funded credentials.
+          required: true

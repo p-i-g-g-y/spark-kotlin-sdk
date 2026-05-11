@@ -1,0 +1,104 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+categories:
+  - title: 'Breaking changes'
+    labels:
+      - 'breaking'
+      - 'breaking-change'
+  - title: 'New features'
+    labels:
+      - 'feature'
+      - 'enhancement'
+  - title: 'Bug fixes'
+    labels:
+      - 'fix'
+      - 'bug'
+  - title: 'Performance'
+    labels:
+      - 'perf'
+      - 'performance'
+  - title: 'Security'
+    labels:
+      - 'security'
+  - title: 'Documentation'
+    labels:
+      - 'docs'
+      - 'documentation'
+  - title: 'Maintenance'
+    labels:
+      - 'chore'
+      - 'refactor'
+      - 'ci'
+      - 'dependencies'
+
+change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
+change-title-escapes: '\<*_&'
+
+version-resolver:
+  major:
+    labels:
+      - 'breaking'
+      - 'breaking-change'
+  minor:
+    labels:
+      - 'feature'
+      - 'enhancement'
+  patch:
+    labels:
+      - 'fix'
+      - 'bug'
+      - 'security'
+      - 'chore'
+      - 'refactor'
+      - 'ci'
+      - 'dependencies'
+      - 'docs'
+      - 'documentation'
+  default: patch
+
+autolabeler:
+  - label: 'breaking'
+    title:
+      - '/^[a-z]+(\(.+\))?!:/'
+      - '/BREAKING CHANGE/i'
+  - label: 'feature'
+    title:
+      - '/^feat(\(.+\))?:/'
+  - label: 'fix'
+    title:
+      - '/^fix(\(.+\))?:/'
+  - label: 'perf'
+    title:
+      - '/^perf(\(.+\))?:/'
+  - label: 'docs'
+    title:
+      - '/^docs(\(.+\))?:/'
+  - label: 'refactor'
+    title:
+      - '/^refactor(\(.+\))?:/'
+  - label: 'chore'
+    title:
+      - '/^chore(\(.+\))?:/'
+  - label: 'ci'
+    title:
+      - '/^ci(\(.+\))?:/'
+  - label: 'test'
+    title:
+      - '/^test(\(.+\))?:/'
+
+template: |
+  ## What's Changed
+
+  $CHANGES
+
+  ## Install
+
+  ```kotlin
+  // build.gradle.kts
+  dependencies {
+      implementation("gy.pig:spark-kotlin-sdk:$RESOLVED_VERSION")
+  }
+  ```
+
+  **Full Changelog**: https://github.com/p-i-g-g-y/spark-kotlin-sdk/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION

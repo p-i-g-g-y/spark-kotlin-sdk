@@ -1,0 +1,43 @@
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Local properties / secrets
+local.properties
+.env
+.env.local
+*.pem
+*.p12
+*.keystore
+*.jks
+secring.gpg
+gradle-secrets.properties
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Kotlin
+.kotlin/
+
+# Gradle
+.gradle/
+
+# Android
+*.apk
+*.aab
+*.ap_
+
+# Java
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+
+# Dokka / docs output
+docs/api/
+build/dokka/

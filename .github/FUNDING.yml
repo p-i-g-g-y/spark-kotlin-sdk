@@ -1,0 +1,9 @@
+# Set the relevant handles to enable sponsor buttons in the GitHub UI.
+# Leave empty values commented out — empty strings make GitHub render an error.
+
+github: [p-i-g-g-y]
+# open_collective:
+# patreon:
+# ko_fi:
+# tidelift:
+# custom:
