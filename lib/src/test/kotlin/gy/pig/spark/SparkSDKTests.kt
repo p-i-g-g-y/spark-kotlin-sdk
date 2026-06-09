@@ -191,4 +191,25 @@ class SparkSDKTests {
         val wB = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletBMnemonic, account = 0)
         assertNotEquals(wA.getSparkAddress(), wB.getSparkAddress())
     }
+
+    @Test
+    fun sparkAddressRoundTrip() {
+        // Decode the bech32m Spark address and verify the protobuf framing
+        // (field 1, wire type 2, length-delimited) wraps exactly the wallet's
+        // 33-byte identity public key. Locks in the encode path end-to-end.
+        val wallet = SparkWallet.fromMnemonic(config = SparkConfig(), mnemonic = walletAMnemonic, account = 0)
+        val address = wallet.getSparkAddress()
+
+        val (hrp, words) = Bech32m.decodeBech32m(address)
+        assertEquals("spark", hrp)
+
+        val payload = Bech32m.fromWords(words)
+        assertNotNull(payload)
+        payload!!
+        assertEquals("field 1, wire type 2 tag", 10.toByte(), payload[0])
+        assertEquals("33-byte length prefix", 33, payload[1].toInt() and 0xFF)
+
+        val pubkey = payload.copyOfRange(2, 2 + 33)
+        assertEquals(wallet.identityPublicKeyHex, pubkey.toHexString())
+    }
 }

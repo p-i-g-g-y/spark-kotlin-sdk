@@ -96,7 +96,18 @@ class SparkHasher(tag: List<String>) {
 
     fun addMapStringToBytes(map: Map<String, ByteArray>) {
         addUint64(map.size.toULong())
-        val sorted = map.entries.sortedBy { it.key }
+        // Sort by raw UTF-8 byte order (not Kotlin's UTF-16 String ordering) so the
+        // resulting tagged hash matches the Swift reference and the server for any
+        // key. Identical to natural ordering for the ASCII hex operator ids used today.
+        val sorted = map.entries.sortedWith { a, b ->
+            val ka = a.key.toByteArray(Charsets.UTF_8)
+            val kb = b.key.toByteArray(Charsets.UTF_8)
+            for (i in 0 until minOf(ka.size, kb.size)) {
+                val cmp = (ka[i].toInt() and 0xFF) - (kb[i].toInt() and 0xFF)
+                if (cmp != 0) return@sortedWith cmp
+            }
+            ka.size - kb.size
+        }
         for ((key, value) in sorted) {
             addBytes(key.toByteArray(Charsets.UTF_8))
             addBytes(value)

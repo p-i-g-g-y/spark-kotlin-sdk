@@ -294,7 +294,10 @@ suspend fun SparkWallet.payLightningInvoice(paymentRequest: String, amountSats: 
         .setTransferRequest(transferRequest)
         .build()
 
-    val swapResponse = stub.initiatePreimageSwapV3(swapRequest)
+    // Attach the idempotency key to the coordinator swap call (mirrors Swift's
+    // metadataWithIdempotencyKey) so a retried pay can't re-initiate the swap.
+    val swapStub = if (idempotencyKey != null) getCoordinatorStubWithIdempotency(idempotencyKey) else stub
+    val swapResponse = swapStub.initiatePreimageSwapV3(swapRequest)
 
     // Step 5: SSP call with transfer external ID
     val sspVariables = mutableMapOf<String, Any>(

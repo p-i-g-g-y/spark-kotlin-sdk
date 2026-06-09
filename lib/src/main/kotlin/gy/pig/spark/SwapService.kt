@@ -14,8 +14,9 @@ import java.util.UUID
  * so picking more than `amountSats` would silently lose the difference.
  *
  * Strategy:
- * 1. Filter out expired leaves (currentTimelock < SPARK_TIME_LOCK_INTERVAL) — they need
- *    to be refreshed via swap before they can be spent again.
+ * 1. Filter out spent-down leaves (rounded timelock <= SPARK_TIME_LOCK_INTERVAL) — their
+ *    next-sequence math would underflow to zero, so they need to be refreshed via swap
+ *    before they can be spent again.
  * 2. Try exact selection from spendable leaves.
  * 3. If no exact match, request an SSP leaves swap to split leaves into the right
  *    denominations, then retry exact selection.
@@ -38,9 +39,11 @@ suspend fun SparkWallet.selectLeavesWithSwap(amountSats: Long): List<SparkLeaf> 
 }
 
 /**
- * Filter out leaves whose current timelock is below the spark time lock interval.
- * Such leaves are "expired" and would underflow the next-sequence math; they must
- * be refreshed via SSP swap before being spent.
+ * Keep only leaves whose rounded-down timelock is strictly greater than one
+ * [SPARK_TIME_LOCK_INTERVAL]. A leaf whose rounded timelock equals the interval is
+ * spent-down: the next-sequence math (round down, subtract one interval) underflows
+ * to zero and the server rejects the swap's CPFP refund. Such leaves must be
+ * refreshed via an SSP swap before they can be spent again.
  */
 internal fun filterSpendableLeaves(leaves: List<SparkLeaf>): List<SparkLeaf> {
     return leaves.filter { leaf ->
@@ -49,7 +52,16 @@ internal fun filterSpendableLeaves(leaves: List<SparkLeaf>): List<SparkLeaf> {
         if (refundTx.isEmpty()) return@filter false
         val rawSeq = parseSequenceFromRawTx(refundTx)
         val currentTimelock = rawSeq and 0xFFFFu
-        currentTimelock >= SPARK_TIME_LOCK_INTERVAL.toUInt()
+        // The server rounds the timelock DOWN to a multiple of the interval, then
+        // subtracts one interval when building the swap's CPFP refund. If that
+        // reaches zero it rejects the tx (observed live: "current timelock 100 …
+        // too small to subtract TimeLockInterval 100 without reaching zero"). So a
+        // leaf is only spendable when its rounded-down timelock is STRICTLY greater
+        // than one interval. The previous `>=` kept dead timelock-100 leaves and
+        // made every swap / Lightning send that selected one fail.
+        val interval = SPARK_TIME_LOCK_INTERVAL.toUInt()
+        val roundedTimelock = currentTimelock - (currentTimelock % interval)
+        roundedTimelock > interval
     }
 }
 

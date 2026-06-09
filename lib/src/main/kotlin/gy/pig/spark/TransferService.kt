@@ -134,6 +134,7 @@ suspend fun SparkWallet.send(receiverIdentityPublicKey: ByteArray, amountSats: L
         status = transfer.status.toString(),
         type = transfer.type.toString(),
         createdAt = Date(transfer.createdTime.seconds * 1000),
+        sparkInvoice = transfer.sparkInvoice.takeIf { it.isNotEmpty() },
     )
 }
 

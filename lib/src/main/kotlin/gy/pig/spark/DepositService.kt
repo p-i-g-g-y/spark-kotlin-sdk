@@ -6,14 +6,24 @@ import spark.Spark
 import uniffi.spark_frost.*
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.util.UUID
 
 suspend fun SparkWallet.getDepositAddress(): DepositAddress {
     val stub = getCoordinatorStub()
 
+    // A one-time deposit address is keyed to a fresh leaf: derive its signing
+    // key pair from a new UUID and register that key (not the identity key) so
+    // the resulting P2TR address can later be claimed via deriveLeafSigningKey.
+    // Mirrors spark-swift-sdk DepositService.getDepositAddress().
+    val leafId = UUID.randomUUID().toString().lowercase()
+    val (_, leafPublicKey) = signer.deriveLeafSigningKeyPair(leafId)
+
     val request = Spark.GenerateDepositAddressRequest.newBuilder()
         .setNetwork(config.network.toProto())
-        .setSigningPublicKey(ByteString.copyFrom(signer.identityPublicKey))
+        .setSigningPublicKey(ByteString.copyFrom(leafPublicKey))
         .setIdentityPublicKey(ByteString.copyFrom(signer.identityPublicKey))
+        .setLeafId(leafId)
+        .setHashVariant(Spark.HashVariant.HASH_VARIANT_V2)
         .build()
 
     val response = stub.generateDepositAddress(request)
@@ -21,8 +31,8 @@ suspend fun SparkWallet.getDepositAddress(): DepositAddress {
 
     return DepositAddress(
         address = addr.address,
-        leafId = "",
-        userPublicKey = signer.identityPublicKey,
+        leafId = leafId,
+        userPublicKey = leafPublicKey,
         verifyingKey = addr.verifyingKey.toByteArray(),
     )
 }

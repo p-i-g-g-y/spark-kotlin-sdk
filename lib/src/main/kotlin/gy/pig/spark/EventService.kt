@@ -37,4 +37,5 @@ private fun mapTransfer(t: Spark.Transfer): SparkTransfer = SparkTransfer(
     status = t.status.toString(),
     type = t.type.toString(),
     createdAt = Date(t.createdTime.seconds * 1000),
+    sparkInvoice = t.sparkInvoice.takeIf { it.isNotEmpty() },
 )

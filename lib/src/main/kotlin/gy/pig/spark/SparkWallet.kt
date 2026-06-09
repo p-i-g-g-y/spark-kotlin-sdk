@@ -185,4 +185,15 @@ class SparkWallet private constructor(val config: SparkConfig, val signer: Spark
         return SparkTokenServiceGrpcKt.SparkTokenServiceCoroutineStub(channel)
             .withInterceptors(MetadataUtils.newAttachHeadersInterceptor(metadata))
     }
+
+    internal suspend fun getCoordinatorStubWithIdempotency(idempotencyKey: String?,): SparkServiceGrpcKt.SparkServiceCoroutineStub {
+        val channel = connectionManager.getChannel(config.coordinatorAddress)
+        val metadata = getAuthMetadata(config.coordinatorAddress)
+        if (idempotencyKey != null) {
+            val key = Metadata.Key.of("x-idempotency-key", Metadata.ASCII_STRING_MARSHALLER)
+            metadata.put(key, idempotencyKey)
+        }
+        return SparkServiceGrpcKt.SparkServiceCoroutineStub(channel)
+            .withInterceptors(MetadataUtils.newAttachHeadersInterceptor(metadata))
+    }
 }

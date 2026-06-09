@@ -21,17 +21,9 @@ import java.util.Date
  *   Add to [available] to mirror what most wallet UIs label "balance"
  *   while a payment is in flight.
  */
-public data class SatsBalance(
-    public val available: Long,
-    public val owned: Long,
-    public val incoming: Long,
-)
+public data class SatsBalance(public val available: Long, public val owned: Long, public val incoming: Long,)
 
-public data class WalletBalance(
-    public val satsBalance: SatsBalance,
-    public val tokenBalances: List<TokenBalance>,
-    public val leaves: List<SparkLeaf>,
-) {
+public data class WalletBalance(public val satsBalance: SatsBalance, public val tokenBalances: List<TokenBalance>, public val leaves: List<SparkLeaf>,) {
     /**
      * Spendable balance only. Equivalent to [SatsBalance.available].
      * Mirrors the Swift SDK's deprecated `balance: Int64` accessor.
@@ -53,6 +45,7 @@ data class SparkTransfer(
     val status: String,
     val type: String,
     val createdAt: Date,
+    val sparkInvoice: String? = null,
 )
 
 data class DepositAddress(val address: String, val leafId: String, val userPublicKey: ByteArray, val verifyingKey: ByteArray,) {
