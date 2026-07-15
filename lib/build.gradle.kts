@@ -345,6 +345,19 @@ tasks.withType<AbstractArchiveTask>().configureEach {
 // Run locally:        ./gradlew :lib:publishToMavenLocal
 // Stage to Sonatype:  ./gradlew :lib:publishReleasePublicationToOssrhRepository
 // -----------------------------------------------------------------------------
+// Publish POM-only metadata — no Gradle Module Metadata (.module). GMM strips
+// the `artifact { type = "aar" }` selector off the jna dependency, so consumers
+// resolving through GMM pull the plain jna JAR (no libjnidispatch.so) and every
+// UniFFI/FROST native call dies at runtime with
+// `NoClassDefFoundError: com.sun.jna.Native` (observed live in piggy-android:
+// claims/withdraws crashed until the app added an explicit jna@aar dependency).
+// The POM correctly records `<type>aar</type>`, which Gradle honors — disabling
+// GMM makes every consumer resolve the aar. Consumers are still advised to
+// declare jna@aar explicitly (JNA's own guidance for Android apps).
+tasks.withType<GenerateModuleMetadata>().configureEach {
+    enabled = false
+}
+
 afterEvaluate {
     publishing {
         publications {
