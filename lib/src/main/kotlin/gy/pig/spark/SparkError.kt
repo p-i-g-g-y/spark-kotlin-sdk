@@ -45,6 +45,13 @@ sealed class SparkError(override val message: String) : Exception(message) {
     /** A FROST signing round failed (operator misbehaviour, key tweak mismatch). */
     data class FrostSigningFailed(val msg: String) : SparkError("FROST signing failed: $msg")
 
+    /**
+     * A leaf's timelock is at the decrement floor — the coordinator refuses to move it
+     * (send, swap, withdraw) until `renew_leaf` resets its refund timelock. See
+     * `renewExhaustedLeaves`.
+     */
+    data class LeafTimelockExhausted(val msg: String) : SparkError(msg)
+
     /** The requested capability isn't implemented in this SDK version yet. */
     data class NotImplemented(val msg: String) : SparkError("Not implemented: $msg")
 

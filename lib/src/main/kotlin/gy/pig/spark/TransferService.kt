@@ -155,10 +155,22 @@ fun computeNextSequences(refundTxData: ByteArray): Pair<UInt, UInt> {
     val rawSequence = parseSequenceFromRawTx(refundTxData)
     val currentTimelock = rawSequence and 0xFFFFu
     val bit30 = rawSequence and (1u shl 30)
+    // At or below one interval the decrement reaches zero, which operators reject —
+    // and UInt subtraction would silently wrap to a garbage sequence instead of
+    // failing. The leaf is frozen until renew_leaf resets its refund timelock.
+    if (currentTimelock <= SPARK_TIME_LOCK_INTERVAL.toUInt()) {
+        throw SparkError.LeafTimelockExhausted(
+            "Leaf timelock exhausted ($currentTimelock <= $SPARK_TIME_LOCK_INTERVAL); needs renewal before it can move"
+        )
+    }
     val nextTimelock = (currentTimelock - SPARK_TIME_LOCK_INTERVAL.toUInt()) and 0xFFFFu
     val directTimelock = (nextTimelock + SPARK_DIRECT_TIMELOCK_OFFSET.toUInt()) and 0xFFFFu
     return (bit30 or nextTimelock) to (bit30 or directTimelock)
 }
+
+/** Whether a leaf's refund timelock can still be decremented by one interval. */
+fun timelockCanDecrement(refundTxData: ByteArray): Boolean =
+    (parseSequenceFromRawTx(refundTxData) and 0xFFFFu) > SPARK_TIME_LOCK_INTERVAL.toUInt()
 
 /** Parse sequence (nSequence) from the first input of a raw transaction. */
 fun parseSequenceFromRawTx(rawTx: ByteArray): UInt {

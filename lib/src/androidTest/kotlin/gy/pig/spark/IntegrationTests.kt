@@ -1077,4 +1077,95 @@ class IntegrationTests {
         )
         println("Full flow complete — no leaves lost!")
     }
+
+    // =========================================================================
+    // Recovery / Consolidation / Renewal Tests
+    // =========================================================================
+
+    @Test
+    fun recoverySnapshot() = runBlocking {
+        val snapshot = walletA.getRecoverySnapshot()
+        val balance = walletA.getBalance()
+
+        assertEquals("MAINNET", snapshot.network)
+        assertEquals(walletA.identityPublicKeyHex, snapshot.identityPublicKeyHex)
+        // Snapshot covers owned statuses beyond AVAILABLE, so it is >= available.
+        assertTrue(
+            "snapshot ${snapshot.totalLeafSats} < available ${balance.satsBalance.available}",
+            snapshot.totalLeafSats >= balance.satsBalance.available,
+        )
+
+        val byId = mutableMapOf<String, spark.Spark.TreeNode>()
+        for (leaf in snapshot.leaves) {
+            val node = spark.Spark.TreeNode.parseFrom(leaf.treeNodeHex.hexToByteArray())
+            assertEquals(leaf.id, node.id)
+            assertTrue("leaf ${leaf.id} missing node tx", !node.nodeTx.isEmpty)
+            assertTrue("leaf ${leaf.id} missing refund tx", !node.refundTx.isEmpty)
+            byId[node.id] = node
+        }
+        for (ancestor in snapshot.nodes) {
+            val node = spark.Spark.TreeNode.parseFrom(ancestor.treeNodeHex.hexToByteArray())
+            assertEquals(ancestor.id, node.id)
+            assertTrue("ancestor ${ancestor.id} missing node tx", !node.nodeTx.isEmpty)
+            byId[node.id] = node
+        }
+
+        // Every leaf's chain must terminate at a root inside the bundle.
+        for (leaf in snapshot.leaves) {
+            var cursor = byId.getValue(leaf.id)
+            var hops = 0
+            while (cursor.hasParentNodeId() && cursor.parentNodeId.isNotEmpty()) {
+                assertTrue("cycle or over-long chain above ${leaf.id}", hops < 100)
+                cursor = byId[cursor.parentNodeId]
+                    ?: throw AssertionError("hole above leaf ${leaf.id}: ${cursor.parentNodeId}")
+                hops++
+            }
+        }
+        println(
+            "Recovery snapshot — ${snapshot.leaves.size} leaves, ${snapshot.nodes.size} ancestors, " +
+                "${snapshot.totalLeafSats} sats",
+        )
+    }
+
+    @Test
+    fun consolidateLeaves() = runBlocking {
+        val before = walletA.getLeaves()
+        val result = walletA.consolidateLeaves()
+
+        println(
+            "Consolidation — leaves ${result.leavesBefore} -> ${result.leavesAfter}, " +
+                "sats ${result.totalSatsBefore} -> ${result.totalSatsAfter}, " +
+                "fee ${result.feeSats}, rounds ${result.rounds}, skipped ${result.skippedLeaves}",
+        )
+        assertEquals(before.size, result.leavesBefore)
+        assertTrue(result.leavesAfter <= result.leavesBefore)
+        // SSP swaps are requested with fee_sats 0 — consolidation must be free.
+        assertEquals(0L, result.feeSats)
+        val ideal = binaryDecomposition(result.totalSatsAfter).size
+        assertTrue(
+            "leavesAfter ${result.leavesAfter} above max(ideal=$ideal, before=${result.leavesBefore})",
+            result.leavesAfter <= maxOf(ideal, result.leavesBefore),
+        )
+    }
+
+    @Test
+    fun renewExhaustedLeavesSmoke() = runBlocking {
+        val leaves = walletA.getLeaves()
+        val result = walletA.renewExhaustedLeaves()
+
+        println(
+            "Renewal — checked ${result.checked}, renewed ${result.renewed}, " +
+                "failures ${result.failures.size}${if (result.failures.isEmpty()) "" else ": ${result.failures}"}",
+        )
+        assertEquals(leaves.size, result.checked)
+        assertTrue("renewal sweep reported failures: ${result.failures}", result.failures.isEmpty())
+
+        // After a sweep every leaf must sit above the renewal-needed threshold.
+        for (leaf in walletA.getLeaves()) {
+            assertTrue(
+                "leaf ${leaf.id} still below renewal threshold (tl ${leaf.refundTimelockBlocks})",
+                leaf.refundTimelockBlocks >= 200u,
+            )
+        }
+    }
 }
